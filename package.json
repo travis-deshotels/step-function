@@ -1,0 +1,15 @@
+{
+  "name": "step-function",
+  "version": "0.0.1",
+  "description": "Just making step function",
+  "main": "serverless.yml",
+  "scripts": {
+    "hello": "echo 'hello!'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "serverless-step-functions": "^3.4.0"
+  }
+}

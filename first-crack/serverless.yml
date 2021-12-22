@@ -1,0 +1,37 @@
+service: step-function
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: python3.8
+  lambdaHashingVersion: 20201221
+  region: us-east-1
+
+plugins:
+  - serverless-step-functions
+
+functions:
+  firstFunction:
+    handler: handler.hello
+  secondFunction:
+    handler: handler.hello_again
+
+stepFunctions:
+  stateMachines:
+    myFlow:
+      name: myFlow
+      definition:
+        StartAt: firstState
+        States:
+          firstState:
+            Type: Task
+            Resource:
+              Fn::GetAtt: [firstFunction, Arn]
+            Next: secondState
+          secondState:
+            Type: Task
+            Resource:
+              Fn::GetAtt: [secondFunction, Arn]
+            Next: finished
+          finished:
+            Type: Succeed
