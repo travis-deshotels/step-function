@@ -27,6 +27,9 @@ stepFunctions:
             Type: Task
             Resource:
               Fn::GetAtt: [firstFunction, Arn]
+            Catch:
+              - ErrorEquals: [OrderException]
+                Next: badOrderId
             Next: secondState
             ResultPath: '$.items'
           secondState:
@@ -34,5 +37,9 @@ stepFunctions:
             Resource:
               Fn::GetAtt: [secondFunction, Arn]
             Next: finished
+          badOrderId:
+            Type: Pass
+            Result: "The orderId was not provided, or does not match any record"
+            End: true
           finished:
             Type: Succeed
